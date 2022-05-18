@@ -41,8 +41,6 @@
             address: $("#address").val()
         }
 
-        console.log(userDto);
-
         let response = await fetch(`/s/user/${userId}/update`, {
             method: "PUT",
             body: JSON.stringify(userDto),
@@ -53,7 +51,13 @@
 
         let responseParse = await response.json();
 
-        console.log(responseParse);
+        if (response.status == 200) {
+            $("#email").val(responseParse.email);
+            $("#address").val(responseParse.address);
+        } else {
+            alert("통신실패!");
+        }
+
     }
 </script>
 
