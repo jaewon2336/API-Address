@@ -1,0 +1,29 @@
+{{> /layout/header}}
+
+<div class="container">
+    <form method="post">
+        <div class="form-group">
+            <label>Username</label>
+            <input id="username" name="username" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input id="password" name="username" type="password" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input id="email" name="email" type="email" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Address</label>
+            <div class="d-flex justify-content-between">
+                <input id="address" name="address" type="text" class="form-control col-md-10">
+                <button type="button" class="btn btn-outline-info col-md-1">주소찾기</button>
+            </div>
+
+        </div>
+        <button type="submit" class="btn btn-info">회원가입</button>
+    </form>
+</div>
+
+{{> /layout/footer}}
