@@ -1,7 +1,7 @@
 {{> /layout/header}}
 
 <div class="container">
-    <form method="post">
+    <form action="/join" method="post">
         <div class="form-group">
             <label>Username</label>
             <input id="username" name="username" type="text" class="form-control">
@@ -17,13 +17,25 @@
         <div class="form-group">
             <label>Address</label>
             <div class="d-flex justify-content-between">
-                <input id="address" name="address" type="text" class="form-control col-md-10">
-                <button type="button" class="btn btn-outline-info col-md-1">주소찾기</button>
+                <input id="address" name="address" type="text" class="form-control col-md-10" readonly>
+                <button type="button" class="btn btn-outline-info col-md-1" onclick="goPopup();">주소찾기</button>
             </div>
 
         </div>
         <button type="submit" class="btn btn-info">회원가입</button>
     </form>
 </div>
+
+<script>
+    function goPopup() {
+        let pop = window.open("/user/juso-popup", "pop", "width=570,height=420, scrollbars=yes, resizable=yes");
+        console.log("고 팝업함수");
+    }
+
+    function jusoCallBack(roadFullAddr) {
+        // 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.
+        $("#address").val(roadFullAddr);
+    }
+</script>
 
 {{> /layout/footer}}
