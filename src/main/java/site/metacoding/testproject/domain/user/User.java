@@ -37,6 +37,7 @@ public class User {
     @Column(length = 60, nullable = false)
     private String email;
 
+    @Column(length = 100, nullable = false)
     private String address;
 
     @CreatedDate

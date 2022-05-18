@@ -4,6 +4,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import site.metacoding.testproject.domain.user.User;
 import site.metacoding.testproject.domain.user.UserRepository;
 
 @RequiredArgsConstructor
@@ -12,5 +13,8 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    public void 회원가입(User user) {
+    }
 
 }
