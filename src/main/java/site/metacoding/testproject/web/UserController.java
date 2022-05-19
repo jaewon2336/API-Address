@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,6 +33,15 @@ public class UserController {
         return "/user/main";
     }
 
+    // 상세보기 페이지
+    @GetMapping("/s/user/{userId}")
+    public String detailForm(@PathVariable Integer userId, Model model) {
+        User userEntity = userService.회원상세보기(userId);
+        model.addAttribute("user", userEntity);
+        return "/user/detailForm";
+    }
+
+    // 회원 수정 페이지
     @GetMapping("/s/user/{userId}/update-form")
     public String updateForm(@PathVariable Integer userId, Model model) {
         User userEntity = userService.회원상세보기(userId);
@@ -39,7 +49,8 @@ public class UserController {
         return "/user/updateForm";
     }
 
-    @PutMapping("/s/user/{userId}/update")
+    // 회원 수정
+    @PutMapping("/s/user/{userId}")
     public @ResponseBody ResponseEntity<?> update(@PathVariable Integer userId,
             @RequestBody UpdateReqDto updateReqDto) {
         System.out.println(updateReqDto.toString());
@@ -47,11 +58,20 @@ public class UserController {
         return new ResponseEntity<>(userEntity, HttpStatus.OK);
     }
 
+    // 회원 탈퇴
+    @DeleteMapping("/s/user/{userId}")
+    public @ResponseBody ResponseEntity<?> deleteAccount(@PathVariable Integer userId) {
+        userService.회원탈퇴(userId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    // 회원가입 페이지
     @GetMapping("/join-form")
     public String joinForm() {
         return "/user/joinForm";
     }
 
+    // 회원가입
     @PostMapping("/join")
     public String join(@Valid JoinReqDto joinReqDto, BindingResult bindingResult) {
         UtilValid.요청에러처리(bindingResult);
@@ -59,6 +79,7 @@ public class UserController {
         return "redirect:/login-form";
     }
 
+    // 로그인 페이지
     @GetMapping("/login-form")
     public String loginForm() {
         return "/user/loginForm";

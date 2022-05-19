@@ -41,7 +41,7 @@
             address: $("#address").val()
         }
 
-        let response = await fetch(`/s/user/${userId}/update`, {
+        let response = await fetch(`/s/user/${userId}`, {
             method: "PUT",
             body: JSON.stringify(userDto),
             headers: {
@@ -52,8 +52,8 @@
         let responseParse = await response.json();
 
         if (response.status == 200) {
-            $("#email").val(responseParse.email);
-            $("#address").val(responseParse.address);
+            alert("수정이 완료되었습니다.");
+            location.href = `/s/user/${userId}`;
         } else {
             alert("통신실패!");
         }
