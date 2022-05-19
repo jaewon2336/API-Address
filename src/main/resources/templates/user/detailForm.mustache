@@ -24,5 +24,25 @@
     <button id="btn-delete" type="button" class="btn btn-info">탈퇴하기</button>
 </div>
 
+<script>
+    $("#btn-delete").click(() => {
+        deleteAccount();
+    });
+
+    async function deleteAccount() {
+        let userId = $("#my-userId").val();
+
+        let response = await fetch(`/s/user/${userId}`, {
+            method: "DELETE"
+        });
+
+        if (response.status == 200) {
+            alert("탈퇴되었습니다.");
+            location.href = "/login-form";
+        } else {
+            alert("통신실패");
+        }
+    }
+</script>
 
 {{> /layout/footer}}
