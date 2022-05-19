@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import site.metacoding.testproject.domain.user.User;
 import site.metacoding.testproject.domain.user.UserRepository;
 import site.metacoding.testproject.handler.ex.CustomApiException;
-import site.metacoding.testproject.handler.ex.CustomException;
 import site.metacoding.testproject.web.dto.user.UpdateReqDto;
 
 @RequiredArgsConstructor
@@ -25,13 +24,11 @@ public class UserService {
 
     @Transactional
     public void 회원탈퇴(Integer userId) {
-        Optional<User> userOp = userRepository.findById(userId);
-        if (userOp.isPresent()) {
-            userRepository.deleteById(userId);
-            session.invalidate();
-        } else {
-            throw new CustomApiException("존재하지 않는 사용자입니다.");
-        }
+
+        User userEntity = 유저찾기(userId);
+
+        userRepository.deleteById(userEntity.getId());
+        session.invalidate();
     }
 
     @Transactional
@@ -44,30 +41,31 @@ public class UserService {
     }
 
     public User 회원상세보기(Integer userId) {
-        Optional<User> userOp = userRepository.findById(userId);
-        if (userOp.isPresent()) {
-            User userEntity = userOp.get();
-            return userEntity;
-        } else {
-            throw new CustomException("존재하지 않는 사용자입니다.");
-        }
+        return 유저찾기(userId);
     }
 
     @Transactional
     public User 회원수정하기(Integer userId, UpdateReqDto updateReqDto) {
-        Optional<User> userOp = userRepository.findById(userId);
 
+        User userEntity = 유저찾기(userId);
+
+        if (!userEntity.getEmail().equals(updateReqDto.getEmail())) {
+            userEntity.setEmail(updateReqDto.getEmail());
+        }
+
+        if (!userEntity.getAddress().equals(updateReqDto.getAddress())) {
+            userEntity.setAddress(updateReqDto.getAddress());
+        }
+
+        return userEntity;
+
+    }
+
+    ///////////////////// 공통 로직 /////////////////////
+    public User 유저찾기(Integer userId) {
+        Optional<User> userOp = userRepository.findById(userId);
         if (userOp.isPresent()) {
             User userEntity = userOp.get();
-
-            if (!userEntity.getEmail().equals(updateReqDto.getEmail())) {
-                userEntity.setEmail(updateReqDto.getEmail());
-            }
-
-            if (!userEntity.getAddress().equals(updateReqDto.getAddress())) {
-                userEntity.setAddress(updateReqDto.getAddress());
-            }
-
             return userEntity;
         } else {
             throw new CustomApiException("존재하지 않는 사용자입니다.");
